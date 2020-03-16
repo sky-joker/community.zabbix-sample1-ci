@@ -4,14 +4,32 @@ on:
 - push
 
 jobs:
-  sanity:
+#  sanity:
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - name: Check out code
+#        uses: actions/checkout@master
+#        #with:
+#        #  path: ansible_collections/community/zabbix
+#
+#      - name: Set up Python 3.6
+#        uses: actions/setup-python@v1
+#        with:
+#          python-version: 3.6
+#
+#      - name: Install ansible-base
+#        run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
+#
+#      - name: Run sanity tests
+#        run: ansible-test sanity --docker -v --color --python 3.6
+
+  integration:
     runs-on: ubuntu-latest
     steps:
 
       - name: Check out code
         uses: actions/checkout@master
-        #with:
-        #  path: ansible_collections/community/zabbix
 
       - name: Set up Python 3.6
         uses: actions/setup-python@v1
@@ -21,5 +39,11 @@ jobs:
       - name: Install ansible-base
         run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
 
-      - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --python 3.6
+      - name: Install dependencies
+        run: pip install docker-compose
+
+      - name: zabbix container server provisioning
+        run: docker-compose up -d
+
+      - name: run integration test
+        run: ansible-test integration --allow-destructive
