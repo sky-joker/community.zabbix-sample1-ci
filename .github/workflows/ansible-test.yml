@@ -38,8 +38,7 @@ jobs:
         with:
           python-version: 3.6
 
-      - name: Install ansible-base
-        run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
+      - run: ls
 
       - name: Install dependencies
         run: pip install docker-compose zabbix-api
@@ -47,5 +46,8 @@ jobs:
       - name: zabbix container server provisioning
         run: docker-compose -f ansible_collections/community/zabbix/docker-compose.yml up -d
 
+      - name: Install ansible-base
+        run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
+
       - name: run integration test
-        run: ansible-test integration --allow-destructive
+        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff
