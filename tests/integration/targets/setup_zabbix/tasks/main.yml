@@ -1,0 +1,19 @@
+---
+- name: check login to zabbix
+  uri:
+    url: "{{ item }}/api_jsonrpc.php"
+    method: POST
+    body:
+      jsonrpc: "2.0"
+      method: "user.login"
+      params:
+        user: "admin"
+        password: "zabbix"
+      id: "1"
+    body_format: json
+    status_code: 200
+  retries: 60
+  delay: 5
+  until: check_login_result is defined and 'json' in check_login_result and 'result' in check_login_result.json
+  loop: "{{ zabbix_server_urls }}"
+  register: check_login_result

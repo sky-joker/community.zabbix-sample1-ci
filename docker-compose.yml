@@ -1,0 +1,119 @@
+---
+version: '3.7'
+services:
+  # Zabbix Server 3.0
+  zabbix30-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+  zabbix30-server:
+    image: zabbix/zabbix-server-mysql:centos-3.0-latest
+    environment:
+      DB_SERVER_HOST: "zabbix30-db"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+    depends_on:
+      - "zabbix30-db"
+    links:
+      - "zabbix30-db"
+  zabbix30-web:
+    image: zabbix/zabbix-web-apache-mysql:centos-3.0-latest
+    environment:
+      DB_SERVER_HOST: "zabbix30-db"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+      ZBX_SERVER_HOST: "zabbix30-server"
+      PHP_TZ: "Asia/Tokyo"
+    depends_on:
+      - "zabbix30-db"
+      - "zabbix30-server"
+    links:
+      - "zabbix30-db"
+      - "zabbix30-server"
+    ports:
+      - "8030:80"
+
+  # Zabbix Server 4.0
+  zabbix40-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+  zabbix40-server:
+    image: zabbix/zabbix-server-mysql:centos-4.0-latest
+    environment:
+      DB_SERVER_HOST: "zabbix40-db"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+    depends_on:
+      - "zabbix40-db"
+    links:
+      - "zabbix40-db"
+  zabbix40-web:
+    image: zabbix/zabbix-web-apache-mysql:centos-4.0-latest
+    environment:
+      DB_SERVER_HOST: "zabbix40-db"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+      ZBX_SERVER_HOST: "zabbix40-server"
+      PHP_TZ: "Asia/Tokyo"
+    depends_on:
+      - "zabbix40-db"
+      - "zabbix40-server"
+    links:
+      - "zabbix40-db"
+      - "zabbix40-server"
+    ports:
+      - "8040:80"
+
+  # Zabbix Server 4.4
+  zabbix44-db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+  zabbix44-server:
+    image: zabbix/zabbix-server-mysql:centos-4.4-latest
+    environment:
+      DB_SERVER_HOST: "zabbix44-db"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+    depends_on:
+      - "zabbix44-db"
+    links:
+      - "zabbix44-db"
+  zabbix44-web:
+    image: zabbix/zabbix-web-apache-mysql:centos-4.4-latest
+    environment:
+      DB_SERVER_HOST: "zabbix44-db"
+      MYSQL_USER: "zabbix"
+      MYSQL_PASSWORD: "zabbix"
+      MYSQL_DATABASE: "zabbix"
+      MYSQL_ROOT_PASSWORD: "zabbix"
+      ZBX_SERVER_HOST: "zabbix44-server"
+      PHP_TZ: "Asia/Tokyo"
+    depends_on:
+      - "zabbix44-db"
+      - "zabbix44-server"
+    links:
+      - "zabbix44-db"
+      - "zabbix44-server"
+    ports:
+      - "8044:80"
