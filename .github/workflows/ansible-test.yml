@@ -45,7 +45,7 @@ jobs:
         run: pip install docker-compose
 
       - name: zabbix container server provisioning
-        run: docker-compose up -d
+        run: docker-compose -f ansible_collections/community/zabbix/docker-compose.yml up -d
 
       - name: run integration test
         run: ansible-test integration --allow-destructive
