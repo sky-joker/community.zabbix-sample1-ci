@@ -42,7 +42,7 @@ jobs:
         run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
 
       - name: Install dependencies
-        run: pip install docker-compose
+        run: pip install docker-compose zabbix-api
 
       - name: zabbix container server provisioning
         run: docker-compose -f ansible_collections/community/zabbix/docker-compose.yml up -d
