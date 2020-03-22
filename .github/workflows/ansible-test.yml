@@ -52,12 +52,18 @@ jobs:
 #          cd ansible_collections/community/zabbix
 #          ansible-test integration -v --color --retry-on-error --continue-on-error --diff
 
+  job1:
+    steps:
+      - name: create container network
+        run: docker network create --subnet=192.168.0.0/24 zbx_nw
+
   integration:
     runs-on: ubuntu-latest
+    needs: job1
     container:
       image: zabbix/zabbix-web-nginx-mysql:ubuntu-4.4.0
       env:
-        DB_SERVER_HOST: "172.17.0.3"
+        DB_SERVER_HOST: "192.168.0.3"
         MYSQL_USER: "zabbix"
         MYSQL_PASSWORD: "zabbix"
         MYSQL_DATABASE: "zabbix"
@@ -65,7 +71,7 @@ jobs:
         ZBX_SERVER_HOST: "zabbix44-server"
       ports:
         - 8030:80
-      options: --name zabbix44-web --net bridge --ip 172.17.0.2
+      options: --name zabbix44-web --net zbx_nw --ip 192.168.0.2
 
     services:
       zabbix44-db:
@@ -75,17 +81,17 @@ jobs:
           MYSQL_USER: "zabbix"
           MYSQL_PASSWORD: "zabbix"
           MYSQL_ROOT_PASSWORD: "zabbix"
-        options: --name zabbix44-db --net bridge --ip 172.17.0.3
+        options: --name zabbix44-db --net zbx_nw --ip 192.168.0.3
 
       zabbix44-server:
         image: zabbix/zabbix-server-mysql:ubuntu-4.4.0
         env:
-          DB_SERVER_HOST: "172.18.0.3"
+          DB_SERVER_HOST: "192.168.0.3"
           MYSQL_USER: "zabbix"
           MYSQL_PASSWORD: "zabbix"
           MYSQL_DATABASE: "zabbix"
           MYSQL_ROOT_PASSWORD: "zabbix"
-        options: --name zabbix44-server --net bridge --ip 172.17.0.4
+        options: --name zabbix44-server --net zbx_nw --ip 192.168.0.4
 
     steps:
 
