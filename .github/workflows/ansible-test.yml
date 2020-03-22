@@ -52,14 +52,14 @@ jobs:
 #          cd ansible_collections/community/zabbix
 #          ansible-test integration -v --color --retry-on-error --continue-on-error --diff
 
-  runs-on: ubuntu-latest
   job1:
+    runs-on: ubuntu-latest
     steps:
       - name: create container network
         run: docker network create --subnet=192.168.0.0/24 zbx_nw
 
   integration:
-    #runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: job1
     container:
       image: zabbix/zabbix-web-nginx-mysql:ubuntu-4.4.0
