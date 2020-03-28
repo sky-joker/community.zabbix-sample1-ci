@@ -52,8 +52,14 @@ jobs:
 #          cd ansible_collections/community/zabbix
 #          ansible-test integration -v --color --retry-on-error --continue-on-error --diff
 
-  zabbix-30-integration:
+  integration:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        zabbix_container:
+          - centos-3.0-latest
+          - centos-4.0-latest
+          - centos-4.4-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -72,7 +78,7 @@ jobs:
       - name: zabbix container server provisioning
         run: docker-compose -f ansible_collections/community/zabbix/docker-compose.yml up -d
         env:
-          zabbix_version: centos-3.0-latest
+          zabbix_version: ${{ matrix.zabbix_container }}
 
       - name: Install ansible-base
         run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
