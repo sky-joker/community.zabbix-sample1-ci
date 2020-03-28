@@ -1,7 +1,7 @@
 ---
 - name: check login to zabbix
   uri:
-    url: "{{ item }}/api_jsonrpc.php"
+    url: "{{ zabbix_server_url }}/api_jsonrpc.php"
     method: POST
     body:
       jsonrpc: "2.0"
@@ -15,5 +15,4 @@
   retries: 60
   delay: 5
   until: check_login_result is defined and 'json' in check_login_result and 'result' in check_login_result.json
-  loop: "{{ zabbix_server_urls }}"
   register: check_login_result
