@@ -58,7 +58,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
         with:
-          repository: community.zabbix-sample1-ci/sample02
+          repository: sky-joker/community.zabbix-sample1-ci/sample02
           path: ansible_collections/community/zabbix
 
       - name: Set up Python 3.6
