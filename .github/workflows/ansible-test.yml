@@ -52,7 +52,7 @@ jobs:
 #          cd ansible_collections/community/zabbix
 #          ansible-test integration -v --color --retry-on-error --continue-on-error --diff
 
-  zabbix_3.0_integration:
+  zabbix-30-integration:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
