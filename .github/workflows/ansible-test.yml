@@ -57,9 +57,12 @@ jobs:
     strategy:
       matrix:
         zabbix_container:
-          - centos-3.0-latest
-          - centos-4.0-latest
-          - centos-4.4-latest
+          - version: "3.0"
+            port: "80"
+          - version: "4.0"
+            port: "80"
+          - version: "4.4"
+            port: "80"
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -78,7 +81,8 @@ jobs:
       - name: zabbix container server provisioning
         run: docker-compose -f ansible_collections/community/zabbix/docker-compose.yml up -d
         env:
-          zabbix_version: ${{ matrix.zabbix_container }}
+          zabbix_version: ${{ matrix.zabbix_container.version }}
+          zabbix_port: ${{ matrix.zabbix_container.port }}
 
       - name: Install ansible-base
         run: pip install git+https://github.com/ansible-collection-migration/ansible-base.git --disable-pip-version-check
