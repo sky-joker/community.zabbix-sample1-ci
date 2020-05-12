@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: "zabbix"
       MYSQL_ROOT_PASSWORD: "zabbix"
   zabbix-server:
-    image: zabbix/zabbix-server-mysql:${zabbix_version}
+    image: zabbix/zabbix-server-mysql:${zabbix_version}-latest
     environment:
       DB_SERVER_HOST: "zabbix-db"
       MYSQL_USER: "zabbix"
@@ -21,7 +21,7 @@ services:
     links:
       - "zabbix-db"
   zabbix-web:
-    image: zabbix/zabbix-web-apache-mysql:${zabbix_version}
+    image: zabbix/zabbix-web-apache-mysql:${zabbix_version}-latest
     environment:
       DB_SERVER_HOST: "zabbix-db"
       MYSQL_USER: "zabbix"
